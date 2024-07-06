@@ -17,6 +17,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -137,6 +138,29 @@ public interface AluguelController {
                                 @Content(
                                         mediaType = APPLICATION_PROBLEM_JSON_VALUE,
                                         schema = @Schema(implementation = ProblemDetail.class)))
+            })
+    @PatchMapping(ALUGUEL_ID)
+    ResponseEntity<Void> partiallyUpdateById(@PathVariable Long id, @RequestBody AluguelUpdateRequest request);
+
+    @Operation(
+            summary = "Atualizar campo por ID",
+            tags = {"alugueis"},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "No Content"),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found",
+                            content =
+                            @Content(
+                                    mediaType = APPLICATION_PROBLEM_JSON_VALUE,
+                                    schema = @Schema(implementation = ProblemDetail.class))),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
+                            content =
+                            @Content(
+                                    mediaType = APPLICATION_PROBLEM_JSON_VALUE,
+                                    schema = @Schema(implementation = ProblemDetail.class)))
             })
     @DeleteMapping(ALUGUEL_ID)
     ResponseEntity<Void> deleteById(@PathVariable Long id);
